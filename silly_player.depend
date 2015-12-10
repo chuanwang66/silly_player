@@ -1,0 +1,566 @@
+# depslib dependency file v1.0
+1449573536 source:d:\ffmpeg_sdl\silly_player\src\audio.c
+	<assert.h>
+	<libswresample/swresample.h>
+	"libavutil/time.h"
+	"player.h"
+	"audio.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libswresample\swresample.h
+	<stdint.h>
+	"libavutil/frame.h"
+	"libavutil/samplefmt.h"
+	"libswresample/version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\frame.h
+	<stdint.h>
+	"avutil.h"
+	"buffer.h"
+	"dict.h"
+	"rational.h"
+	"samplefmt.h"
+	"pixfmt.h"
+	"version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\avutil.h
+	"common.h"
+	"error.h"
+	"rational.h"
+	"version.h"
+	"macros.h"
+	"mathematics.h"
+	"log.h"
+	"pixfmt.h"
+
+1448456044 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\common.h
+	<errno.h>
+	<inttypes.h>
+	<limits.h>
+	<math.h>
+	<stdint.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"attributes.h"
+	"version.h"
+	"libavutil/avconfig.h"
+	"config.h"
+	"intmath.h"
+	"common.h"
+	"mem.h"
+	"internal.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\attributes.h
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\version.h
+	"macros.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\macros.h
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\avconfig.h
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\mem.h
+	<limits.h>
+	<stdint.h>
+	"attributes.h"
+	"error.h"
+	"avutil.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\error.h
+	<errno.h>
+	<stddef.h>
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\rational.h
+	<stdint.h>
+	<limits.h>
+	"attributes.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\mathematics.h
+	<stdint.h>
+	<math.h>
+	"attributes.h"
+	"rational.h"
+	"intfloat.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\intfloat.h
+	<stdint.h>
+	"attributes.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\log.h
+	<stdarg.h>
+	"avutil.h"
+	"attributes.h"
+	"version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\pixfmt.h
+	"libavutil/avconfig.h"
+	"version.h"
+	"old_pix_fmts.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\old_pix_fmts.h
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\buffer.h
+	<stdint.h>
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\dict.h
+	<stdint.h>
+	"version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\samplefmt.h
+	<stdint.h>
+	"avutil.h"
+	"attributes.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libswresample\version.h
+	"libavutil/avutil.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\time.h
+	<stdint.h>
+
+1449569068 d:\ffmpeg_sdl\silly_player\include\player.h
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<libswscale/swscale.h>
+	<libswresample/swresample.h>
+	<packet_queue.h>
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavcodec\avcodec.h
+	<errno.h>
+	"libavutil/samplefmt.h"
+	"libavutil/attributes.h"
+	"libavutil/avutil.h"
+	"libavutil/buffer.h"
+	"libavutil/cpu.h"
+	"libavutil/channel_layout.h"
+	"libavutil/dict.h"
+	"libavutil/frame.h"
+	"libavutil/log.h"
+	"libavutil/pixfmt.h"
+	"libavutil/rational.h"
+	"version.h"
+	"old_codec_ids.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\cpu.h
+	"attributes.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavutil\channel_layout.h
+	<stdint.h>
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavcodec\version.h
+	"libavutil/version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavcodec\old_codec_ids.h
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavformat\avformat.h
+	<time.h>
+	<stdio.h>
+	"libavcodec/avcodec.h"
+	"libavutil/dict.h"
+	"libavutil/log.h"
+	"avio.h"
+	"libavformat/version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavformat\avio.h
+	<stdint.h>
+	"libavutil/common.h"
+	"libavutil/dict.h"
+	"libavutil/log.h"
+	"libavformat/version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libavformat\version.h
+	"libavutil/version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libswscale\swscale.h
+	<stdint.h>
+	"libavutil/avutil.h"
+	"libavutil/log.h"
+	"libavutil/pixfmt.h"
+	"version.h"
+
+1447388185 d:\ffmpeg_sdl\silly_player\ffmpeg-2.8.2-win32-dev\include\libswscale\version.h
+	"libavutil/version.h"
+
+1449399549 d:\ffmpeg_sdl\silly_player\include\packet_queue.h
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<SDL.h>
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl.h
+	"SDL_main.h"
+	"SDL_stdinc.h"
+	"SDL_assert.h"
+	"SDL_atomic.h"
+	"SDL_audio.h"
+	"SDL_clipboard.h"
+	"SDL_cpuinfo.h"
+	"SDL_endian.h"
+	"SDL_error.h"
+	"SDL_events.h"
+	"SDL_filesystem.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_haptic.h"
+	"SDL_hints.h"
+	"SDL_loadso.h"
+	"SDL_log.h"
+	"SDL_messagebox.h"
+	"SDL_mutex.h"
+	"SDL_power.h"
+	"SDL_render.h"
+	"SDL_rwops.h"
+	"SDL_system.h"
+	"SDL_thread.h"
+	"SDL_timer.h"
+	"SDL_version.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_main.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_stdinc.h
+	"SDL_config.h"
+	<sys/types.h>
+	<stdio.h>
+	<stdlib.h>
+	<stddef.h>
+	<stdarg.h>
+	<stdlib.h>
+	<malloc.h>
+	<stddef.h>
+	<stdarg.h>
+	<memory.h>
+	<string.h>
+	<strings.h>
+	<inttypes.h>
+	<stdint.h>
+	<ctype.h>
+	<math.h>
+	<iconv.h>
+	"begin_code.h"
+	<alloca.h>
+	<malloc.h>
+	<malloc.h>
+	<malloc.h>
+	<stdlib.h>
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_config.h
+	"SDL_platform.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_platform.h
+	"AvailabilityMacros.h"
+	"TargetConditionals.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\begin_code.h
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\close_code.h
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_assert.h
+	"SDL_config.h"
+	"begin_code.h"
+	<signal.h>
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_atomic.h
+	"SDL_stdinc.h"
+	"SDL_platform.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_audio.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_endian.h"
+	"SDL_mutex.h"
+	"SDL_thread.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_error.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_endian.h
+	"SDL_stdinc.h"
+	<endian.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_mutex.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_thread.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_atomic.h"
+	"SDL_mutex.h"
+	"begin_code.h"
+	<process.h>
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_rwops.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_clipboard.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_cpuinfo.h
+	"SDL_stdinc.h"
+	<intrin.h>
+	<intrin.h>
+	<altivec.h>
+	<mmintrin.h>
+	<mm3dnow.h>
+	<xmmintrin.h>
+	<emmintrin.h>
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_events.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_keyboard.h"
+	"SDL_mouse.h"
+	"SDL_joystick.h"
+	"SDL_gamecontroller.h"
+	"SDL_quit.h"
+	"SDL_gesture.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_video.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_surface.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_pixels.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_rect.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_pixels.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_surface.h
+	"SDL_stdinc.h"
+	"SDL_pixels.h"
+	"SDL_rect.h"
+	"SDL_blendmode.h"
+	"SDL_rwops.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_blendmode.h
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_keyboard.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_keycode.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_keycode.h
+	"SDL_stdinc.h"
+	"SDL_scancode.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_scancode.h
+	"SDL_stdinc.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_mouse.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_joystick.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_gamecontroller.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_rwops.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_quit.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_gesture.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"SDL_touch.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_touch.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_filesystem.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_haptic.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"SDL_joystick.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_hints.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_loadso.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_log.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_messagebox.h
+	"SDL_stdinc.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_power.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_render.h
+	"SDL_stdinc.h"
+	"SDL_rect.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_system.h
+	"SDL_stdinc.h"
+	"SDL_keyboard.h"
+	"SDL_render.h"
+	"SDL_video.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_timer.h
+	"SDL_stdinc.h"
+	"SDL_error.h"
+	"begin_code.h"
+	"close_code.h"
+
+1394253593 d:\ffmpeg_sdl\silly_player\sdl2-2.0.3\include\sdl_version.h
+	"SDL_stdinc.h"
+	"begin_code.h"
+	"close_code.h"
+
+1449293645 d:\ffmpeg_sdl\silly_player\include\audio.h
+	<stdint.h>
+	<player.h>
+
+1449114594 source:d:\ffmpeg_sdl\silly_player\src\global.c
+
+1449114604 source:d:\ffmpeg_sdl\silly_player\src\packet_queue.c
+	"packet_queue.h"
+
+1449559009 source:d:\ffmpeg_sdl\silly_player\src\parse.c
+	"player.h"
+	"parse.h"
+
+1449399090 d:\ffmpeg_sdl\silly_player\include\parse.h
+	<stdint.h>
+
+1449569172 source:d:\ffmpeg_sdl\silly_player\src\player.c
+	<stdio.h>
+	<assert.h>
+	<math.h>
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<libswscale/swscale.h>
+	<SDL.h>
+	"audio.h"
+	"video.h"
+	"parse.h"
+	"player.h"
+
+1449294577 d:\ffmpeg_sdl\silly_player\include\video.h
+	"player.h"
+
+1449559034 source:d:\ffmpeg_sdl\silly_player\src\test_audio.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"libavutil/time.h"
+	"libavcodec/avcodec.h"
+	"libavformat/avformat.h"
+	"libswresample/swresample.h"
+	"SDL.h"
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<libswresample/swresample.h>
+	<SDL2/SDL.h>
+
+1449117213 source:d:\ffmpeg_sdl\silly_player\src\test_video.c
+	<stdio.h>
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<libswscale/swscale.h>
+	<SDL.h>
+
+1449402138 source:d:\ffmpeg_sdl\silly_player\src\video.c
+	<stdio.h>
+	<assert.h>
+	<math.h>
+	<libavcodec/avcodec.h>
+	<libavformat/avformat.h>
+	<libswscale/swscale.h>
+	<SDL.h>
+	"video.h"
+	"player.h"
+
