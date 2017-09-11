@@ -21,6 +21,7 @@ extern "C"
 };
 #endif
 
+extern int global_exit;
 static VideoState *is; //global video state
 
 static int stream_component_open(int stream_index)
@@ -271,7 +272,7 @@ static void video_refresh_timer(void *userdata){
 int main(int argc, char* argv[])
 {
     SDL_Event sdlEvent;
-    SDL_Thread *parse_tid;
+    SDL_Thread *parse_tid, *video_tid;
     uint64_t refresh_cnt;
 
     if(argc < 2)
@@ -303,9 +304,8 @@ int main(int argc, char* argv[])
 
     //parsing thread (reading packets from stream)
     parse_tid = SDL_CreateThread(parse_thread, "PARSING_THREAD", is);
-    if(!parse_tid)
-    {
-        fprintf(stderr, "cannot create parsing thread.\n");
+    if(!parse_tid) {
+        fprintf(stderr, "create parsing thread failed.\n");
         av_free(is);
         return -1;
     }
@@ -314,7 +314,12 @@ int main(int argc, char* argv[])
     SDL_PauseAudio(0);
 
     //video-decoding thread (video pkt --> frame --> YUV image)
-    SDL_CreateThread(video_thread, "VIDEO_DECODING_THREAD", is);
+    video_tid = SDL_CreateThread(video_thread, "VIDEO_DECODING_THREAD", is);
+    if(!video_tid) {
+        fprintf(stderr, "create video thread failed.\n");
+        av_free(is);
+        return -1;
+    }
 
     //////////////////////////////// the window ////////////////////////////////
     //once AVCodecContext is known, the size of window is known
@@ -331,15 +336,22 @@ int main(int argc, char* argv[])
             break;
         case SDL_QUIT:
             fprintf(stderr, "event:quit\n");
-            is->quit = 1;
+            global_exit = 1;
             break;
         default:
             //fprintf(stderr, "event:%d\n", sdlEvent.type);
             break;
         }
 
-        if(is->quit) break;
+        if(global_exit) break;
     }
+
+    SDL_CondSignal(is->pictq_cond);
+    SDL_DestroyCond(is->pictq_cond);
+    SDL_DestroyMutex(is->pictq_mutex);
+
+    SDL_WaitThread(parse_tid, NULL);
+    SDL_WaitThread(video_tid, NULL);
 
     SDL_Quit();
     return 0;

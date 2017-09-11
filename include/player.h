@@ -92,9 +92,6 @@ typedef struct VideoState{
 
 
     char filename[1024];
-
-    /** ************** process terminator ************** **/
-    int quit;
 }VideoState;
 
 #endif // PLAYER_H

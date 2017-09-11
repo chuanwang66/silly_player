@@ -22,6 +22,8 @@ extern "C"
 };
 #endif
 
+extern int global_exit;
+
 static SDL_Window *sdlWin;
 static SDL_mutex *sdlWinMutex;
 
@@ -67,12 +69,12 @@ static int queue_picture(VideoState *is, AVFrame *pFrame, double pts){
 
     //wait for finishing displaying the last frame
     SDL_LockMutex(is->pictq_mutex);
-    while(is->pictq_size >= 1 && !is->quit){
+    while(is->pictq_size >= 1 && !global_exit){
         SDL_CondWait(is->pictq_cond, is->pictq_mutex);
     }
     SDL_UnlockMutex(is->pictq_mutex);
 
-    if(is->quit) return -1;
+    if(global_exit) return -1;
 
     //allocate space for "YUV image" on demand
     vp = &is->pictq;
@@ -88,7 +90,7 @@ static int queue_picture(VideoState *is, AVFrame *pFrame, double pts){
         vp->allocated = 1;
     }
 
-    if(is->quit) return -1;
+    if(global_exit) return -1;
 
     //conversion: video frame --> YUV image
     if(vp->pFrameYUV){
@@ -119,9 +121,9 @@ int video_thread(void *arg)
     for(;;)
     {
         if(packet_queue_get(&is->videoq, packet, 1) < 0)
-        {
             break; //means quitting getting packets
-        }
+        if(global_exit)
+            break;
         pts = 0;
 
         //decoding: packet --> frame
@@ -143,6 +145,8 @@ int video_thread(void *arg)
     }
 
     avcodec_free_frame(&pFrame);
+
+    fprintf(stderr, "video thread breaks\n");
     return 0;
 }
 

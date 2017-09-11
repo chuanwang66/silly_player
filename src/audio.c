@@ -10,6 +10,8 @@
 #define CONVERT_FMT_SWR
 //#define SHOW_AUDIO_FRAME
 
+extern int global_exit;
+
 static float cmid(float x, float min, float max){
     return (x<min) ? min : ((x>max) ? max: x);
 }
@@ -116,7 +118,7 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
         if(is->audio_pkt_ptr->data){
             av_free_packet(is->audio_pkt_ptr); //free on destroy ???
         }
-        if(is->quit){
+        if(global_exit){
             return -1;
         }
 

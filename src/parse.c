@@ -1,6 +1,8 @@
 #include "player.h"
 #include "parse.h"
 
+extern int global_exit;
+
 int parse_thread(void *arg)
 {
     VideoState *is = (VideoState *)arg;
@@ -8,7 +10,7 @@ int parse_thread(void *arg)
 
     for(;;)
     {
-        if(is->quit) break;
+        if(global_exit) break;
         //seek stuff goes here ???
 
         //reading too fast, slow down!
@@ -45,7 +47,7 @@ int parse_thread(void *arg)
     }
 
     /* wait for quitting */
-    while(!is->quit)
+    while(!global_exit)
     {
         SDL_Delay(100);
     }
@@ -53,5 +55,7 @@ int parse_thread(void *arg)
     /* free facilities for audio/video playing */
     av_free(is->out_buffer);
     swr_free(&is->swr_ctx);
+
+    fprintf(stderr, "parse thread breaks\n");
     return 0;
 }
