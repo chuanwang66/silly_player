@@ -14,12 +14,6 @@ int parse_thread(void *arg)
         //reading too fast, slow down!
         if(is->audioq.size > MAX_AUDIOQ_SIZE || is->videoq.size > MAX_VIDEOQ_SIZE)
         {
-            //if(is->audioq.size > MAX_AUDIOQ_SIZE){
-            //    fprintf(stderr, "{block audio dec}");
-            //}else if(is->videoq.size > MAX_VIDEOQ_SIZE){
-            //    fprintf(stderr, "{block video dec}");
-            //}
-
             SDL_Delay(10);
             continue;
         }
@@ -42,6 +36,7 @@ int parse_thread(void *arg)
         }
         else if(packet->stream_index == is->audio_stream_index)
         {
+            fprintf(stderr, "a");
             packet_queue_put(&is->audioq, packet);
         }
         else

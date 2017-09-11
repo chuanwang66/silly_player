@@ -25,11 +25,12 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
 #endif
 
     for(;;){
+        //step 1. is->audio_pkt_ptr  ==解码==>  is->audio_frame  ==转码==>  is->out_buffer
+        //  1.1 is->audio_pkt_ptr用完，跳到step 2.重新取出一个AVPacket *
+        //  1.2 is->audio_pkt_ptr未用完，再解码出一个is->audio_frame
         while(is->audio_pkt_size > 0){
             int got_frame = 0;
-            //packet --> frame
-            //pkt_consumed: how many bytes of packet consumed
-            pkt_consumed = avcodec_decode_audio4(is->audio_ctx, &is->audio_frame, &got_frame, is->audio_pkt_ptr);
+            pkt_consumed = avcodec_decode_audio4(is->audio_ctx, &is->audio_frame, &got_frame, is->audio_pkt_ptr);  //pkt_consumed: how many bytes of packet consumed
 
             if(pkt_consumed < 0){
                 is->audio_pkt_size = 0;
@@ -38,9 +39,7 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
             is->audio_pkt_data += pkt_consumed;
             is->audio_pkt_size -= pkt_consumed;
 
-            //frame --> audio_buf
-            //data_size: how many bytes of frame generated
-            data_size = 0;
+            data_size = 0;  //data_size: how many bytes of frame generated
             if(got_frame){
                 //data_size : now 8192 bytes in this frame
                 //but only "half" of the frame is utilized in new-version ffmpeg
@@ -54,8 +53,8 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
 
                   "Well I figure it out. comparing to the old ffmpeg, It seems that in new ffmpeg,
                   each frame is twice larger than old one, so I guess that the output size could
-                  be larger estimated in new version. So I tried devided the size of the resampled
-                   data by 2, well I got the perfact audio."
+                  be larger estimated in new version. So I tried divided the size of the resampled
+                   data by 2, well I got the perfect audio."
                 */
                 data_size >>= 1;
 
@@ -93,10 +92,9 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
                 /*ATTENTION:
                     swr_convert(..., in_count)
                     in_count: number of input samples available in one channel
-                    so half of data_size should be provided here.
-                    HOLY SHIT!!!
+                    so half of data_size is provided here. HOLY SHIT!!!
                 */
-                if(swr_convert(is->swr_ctx, &is->out_buffer, MAX_AUDIO_FRAME_SIZE, (const uint8_t **)is->audio_frame.data, data_size>>1) < 0){
+                if(swr_convert(is->swr_ctx, &is->out_buffer, MAX_AUDIO_FRAME_SIZE, (const uint8_t **)is->audio_frame.data, data_size/(is->audio_ctx->channels)) < 0){
                     fprintf(stderr, "swr_convert: Error while converting.\n");
                     return -1;
                 }
@@ -107,18 +105,14 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
                 continue;
             }
 
-            //
             pts = is->audio_clock;
             *pts_ptr = pts;
             is->audio_clock += (double)data_size / (double)(2 * is->audio_ctx->channels * is->audio_ctx->sample_rate);
-            //we have a little in audio buffer, return it and come back for more later
 
             return data_size;
         }
 
-        //重新从PacketQueue中取
-        //1. decoding失败
-        //2. 没有部分解码的is->audio_pkt_ptr
+        //step 2. 重新从PacketQueue取出一个AVPacket *
         if(is->audio_pkt_ptr->data){
             av_free_packet(is->audio_pkt_ptr); //free on destroy ???
         }
@@ -152,15 +146,15 @@ void audio_callback(void *userdata, uint8_t *stream, int len){
 
     //fprintf(stderr, "audio_callback(): av_time()=%lf, len=%d\n", (double)av_gettime() / 1000.0, len);
 
-    //SDL 2.0
-    SDL_memset(stream, 0, len);
+    SDL_memset(stream, 0, len);  //SDL 2.0
 
+    //is->audio_buf ==> 填充len个字节到stream
+    //(不够则不断解码音频到is->audio_buf)
     while(len > 0){
         if(is->audio_buf_index >= is->audio_buf_size){
             //we have sent all our data(in audio buf), decode more
             audio_size = audio_decode_frame(is, is->audio_buf, sizeof(is->audio_buf), &pts);
-            if(audio_size < 0){
-                //error, output silence
+            if(audio_size < 0){  //error, output silence
                 is->audio_buf_size = SDL_AUDIO_BUFFER_SIZE;
                 memset(is->audio_buf, 0, is->audio_buf_size);
             }else{
@@ -172,7 +166,6 @@ void audio_callback(void *userdata, uint8_t *stream, int len){
         //there're data left in audio buf, feed to stream
         len1 = is->audio_buf_size - is->audio_buf_index;
         len1 = min(len1, len);
-        //memcpy(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1);
 
 #ifdef SHOW_AUDIO_FRAME
         //print decoded data

@@ -49,6 +49,7 @@ static int stream_component_open(int stream_index)
         return -1;
     }
 
+    //open SDL audio
     if(codecCtx->codec_type == AVMEDIA_TYPE_AUDIO)
     {
         desired_spec.freq = codecCtx->sample_rate;
@@ -80,6 +81,7 @@ static int stream_component_open(int stream_index)
         return -1;
     }
 
+    //initialize 'is' audio/video info
     switch(codecCtx->codec_type)
     {
     case AVMEDIA_TYPE_AUDIO:
