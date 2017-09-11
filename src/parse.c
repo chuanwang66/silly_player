@@ -36,7 +36,6 @@ int parse_thread(void *arg)
         }
         else if(packet->stream_index == is->audio_stream_index)
         {
-            fprintf(stderr, "a");
             packet_queue_put(&is->audioq, packet);
         }
         else
