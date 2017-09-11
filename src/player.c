@@ -24,6 +24,22 @@ extern "C"
 extern int global_exit;
 static VideoState *is; //global video state
 
+static int open_input()
+{
+    if(avformat_open_input(&is->pFormatCtx, is->filename, NULL, NULL) != 0)
+    {
+        fprintf(stderr, "could not open video file.\n");
+        return -1;
+    }
+    if(avformat_find_stream_info(is->pFormatCtx, NULL) < 0)
+    {
+        fprintf(stderr, "could not find stream info.\n");
+        return -1;
+    }
+    av_dump_format(is->pFormatCtx, 0, is->filename, 0);
+    return 0;
+}
+
 static int stream_component_open(int stream_index)
 {
     AVCodec *codec = NULL;
@@ -131,26 +147,45 @@ static int stream_component_open(int stream_index)
     return 0;
 }
 
-static int openDecoder()
+static int open_audio_decoder()
 {
-    int video_stream_index = -1;
     int audio_stream_index = -1;
     int i;
-
-    is->video_stream_index = -1;
     is->audio_stream_index = -1;
 
-    if(avformat_open_input(&is->pFormatCtx, is->filename, NULL, NULL) != 0)
+    for(i=0; i<is->pFormatCtx->nb_streams; ++i)
     {
-        fprintf(stderr, "could not open video file.\n");
+        int media_type = is->pFormatCtx->streams[i]->codec->codec_type;
+
+        if(media_type == AVMEDIA_TYPE_AUDIO && audio_stream_index == -1)
+        {
+            audio_stream_index = i;
+            break;
+        }
+    }
+
+    if(audio_stream_index >= 0)
+    {
+        if(stream_component_open(audio_stream_index) < 0)
+        {
+            fprintf(stderr, "%s: could not open audio codecs.\n", is->filename);
+            return -1;
+        }
+    }
+    else
+    {
+        fprintf(stderr, "%s: could not find audio stream.\n", is->filename);
         return -1;
     }
-    if(avformat_find_stream_info(is->pFormatCtx, NULL) < 0)
-    {
-        fprintf(stderr, "could not find stream info.\n");
-        return -1;
-    }
-    av_dump_format(is->pFormatCtx, 0, is->filename, 0);
+
+    return 0;
+}
+
+static int open_video_decoder()
+{
+    int video_stream_index = -1;
+    int i;
+    is->video_stream_index = -1;
 
     for(i=0; i<is->pFormatCtx->nb_streams; ++i)
     {
@@ -159,10 +194,7 @@ static int openDecoder()
         if(media_type == AVMEDIA_TYPE_VIDEO && video_stream_index == -1)
         {
             video_stream_index = i;
-        }
-        if(media_type == AVMEDIA_TYPE_AUDIO && audio_stream_index == -1)
-        {
-            audio_stream_index = i;
+            break;
         }
     }
 
@@ -178,20 +210,6 @@ static int openDecoder()
     else
     {
         fprintf(stderr, "%s: could not find video stream.\n", is->filename);
-        return -1;
-    }
-
-    if(audio_stream_index >= 0)
-    {
-        if(stream_component_open(audio_stream_index) < 0)
-        {
-            fprintf(stderr, "%s: could not open audio codecs.\n", is->filename);
-            return -1;
-        }
-    }
-    else
-    {
-        fprintf(stderr, "%s: could not find audio stream.\n", is->filename);
         return -1;
     }
 
@@ -269,7 +287,7 @@ static void video_refresh_timer(void *userdata){
     SDL_UnlockMutex(is->pictq_mutex);
 }
 
-int main(int argc, char* argv[])
+int main_player(int argc, char* argv[])
 {
     SDL_Event sdlEvent;
     SDL_Thread *parse_tid, *video_tid;
@@ -277,7 +295,6 @@ int main(int argc, char* argv[])
 
     if(argc < 2)
     {
-        //run with arguments in codeblocks: project/Set programs' arguments.
         fprintf(stderr, "usage: $PROG_NAME $VIDEO_FILE_NAME.\n");
         exit(1);
     }
@@ -293,11 +310,16 @@ int main(int argc, char* argv[])
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER))
     {
         fprintf(stderr, "SDL_Init() error: %s\n", SDL_GetError());
+        av_free(is);
         exit(1);
     }
 
-    if(openDecoder() != 0)
-    {
+    if(open_input() != 0) {
+        av_free(is);
+        return -1;
+    }
+
+    if(open_audio_decoder() != 0 || open_video_decoder() != 0) {
         av_free(is);
         return -1;
     }
