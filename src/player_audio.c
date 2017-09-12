@@ -122,12 +122,13 @@ static int stream_component_open(int stream_index)
 
         //prepare conversion facility (FLTP -> S16)
         is->out_buffer = (uint8_t *)av_malloc(MAX_AUDIO_FRAME_SIZE << 1); //why twice ???
+
         is->swr_ctx = swr_alloc();
         is->swr_ctx = swr_alloc_set_opts(is->swr_ctx,
                                          AV_CH_LAYOUT_STEREO,
                                          AV_SAMPLE_FMT_S16,
                                          is->audio_ctx->sample_rate, //44100
-                                         av_get_default_channel_layout(is->audio_ctx->channels), //is->audio_ctx->channel_layout
+                                         av_get_default_channel_layout(is->audio_ctx->channels),
                                          is->audio_ctx->sample_fmt,
                                          is->audio_ctx->sample_rate,
                                          0,

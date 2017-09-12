@@ -140,7 +140,7 @@ int test_audio_main(int argc, char* argv[])
 
 	FILE *pFile=NULL;
 	char url[]="quicksort.mp4";
-	//char url[]="skycity1.mp3";
+	//char url[]="Benny Goodman - Sing Sing Sing.mp3";
 
 	av_register_all();
 	avformat_network_init();

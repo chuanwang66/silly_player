@@ -20,11 +20,12 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
     int pkt_consumed, data_size = 0;
     double pts;
 
-#ifndef CONVERT_FMT_SWR
-    int16_t out_buffer[SDL_AUDIO_BUFFER_SIZE << 1]; //2048
-    float sample0, sample1;
-    int i;
-#endif
+    //data_size: how many bytes of frame generated
+    data_size = av_samples_get_buffer_size(NULL,
+                                            av_get_channel_layout_nb_channels(AV_CH_LAYOUT_STEREO),
+                                            is->audio_ctx->frame_size,
+                                            AV_SAMPLE_FMT_S16,
+                                            1);
 
     for(;;){
         //step 1. is->audio_pkt_ptr  ==½âÂë==>  is->audio_frame  ==×ªÂë==>  is->out_buffer
@@ -41,70 +42,17 @@ static int audio_decode_frame(VideoState *is, uint8_t *audio_buf, int buf_size, 
             is->audio_pkt_data += pkt_consumed;
             is->audio_pkt_size -= pkt_consumed;
 
-            data_size = 0;  //data_size: how many bytes of frame generated
             if(got_frame){
-                //data_size : now 8192 bytes in this frame
-                //but only "half" of the frame is utilized in new-version ffmpeg
-                data_size = av_samples_get_buffer_size(NULL,
-                                                       is->audio_ctx->channels, //2 ==> 2 channels
-                                                       is->audio_frame.nb_samples, //1024 ==> 1024 samples per channel
-                                                       is->audio_frame.format, //FLTP ==> a float(4 bytes) per sample
-                                                       1);
-                /*
-                  https://trac.ffmpeg.org/ticket/3525
-
-                  "Well I figure it out. comparing to the old ffmpeg, It seems that in new ffmpeg,
-                  each frame is twice larger than old one, so I guess that the output size could
-                  be larger estimated in new version. So I tried divided the size of the resampled
-                   data by 2, well I got the perfect audio."
-                */
-                data_size >>= 1;
-
-                assert(data_size <= buf_size);
-
-#ifndef CONVERT_FMT_SWR
-                //convert from AV_SAMPLE_FMT_FLTP to AV_SAMPLE_FMT_S16SYS
-                //http://stackoverflow.com/questions/14989397/how-to-convert-sample-rate-from-av-sample-fmt-fltp-to-av-sample-fmt-s16
-                float *inputChannel0 = is->audio_frame.data[0];
-                if(is->audio_frame.channels == 1){ //mono
-                    for(i=0; i<is->audio_frame.nb_samples; ++i){
-                        sample0 = cmid(*inputChannel0, -1.0f, 1.0f);
-                        out_buffer[i] = (int16_t)(sample0 * 32767.0);
-
-                        ++inputChannel0;
-                    }
-                }else{ //stereo
-                    //fprintf(stderr, "\n(start)");
-                    float *inputChannel1 = is->audio_frame.data[1];
-                    for(i=0; i<is->audio_frame.nb_samples; ++i){
-                        sample0 = cmid(*inputChannel0, -1.0f, 1.0f);
-                        sample1 = cmid(*inputChannel1, -1.0f, 1.0f);
-                        //fprintf(stderr, "%f:%f ", sample0, sample1);
-                        out_buffer[i*2] = (int16_t) (sample0 * 32767.0f);
-                        out_buffer[i*2+1] = (int16_t) (sample1 * 32767.0f);
-                        ++inputChannel0;
-                        ++inputChannel1;
-                    }
-                    //fprintf(stderr, "(end)\n");
-                }
-                //memcpy(audio_buf, is->audio_frame.data[0], data_size);
-                memcpy(audio_buf, out_buffer, is->audio_frame.nb_samples * 2);
-#else
-
                 /*ATTENTION:
                     swr_convert(..., in_count)
                     in_count: number of input samples available in one channel
                     so half of data_size is provided here. HOLY SHIT!!!
                 */
-                if(swr_convert(is->swr_ctx, &is->out_buffer, MAX_AUDIO_FRAME_SIZE, (const uint8_t **)is->audio_frame.data, data_size/(is->audio_ctx->channels)) < 0){
-                    fprintf(stderr, "swr_convert: Error while converting.\n");
+                if(swr_convert(is->swr_ctx, &is->out_buffer, MAX_AUDIO_FRAME_SIZE, (const uint8_t **)is->audio_frame.data, is->audio_frame.nb_samples) < 0){
+                    fprintf(stderr, "swr_convert: error while converting.\n");
                     return -1;
                 }
                 memcpy(audio_buf, is->out_buffer, data_size);
-#endif
-            }
-            if(data_size <= 0) {
-                continue;
             }
 
             pts = is->audio_clock;
@@ -141,11 +89,6 @@ void audio_callback(void *userdata, uint8_t *stream, int len){
     int len1, audio_size;
     double pts;
 
-#ifdef SHOW_AUDIO_FRAME
-    uint8_t *offset, one_byte, flag;
-    int i;
-#endif
-
     //fprintf(stderr, "audio_callback(): av_time()=%lf, len=%d\n", (double)av_gettime() / 1000.0, len);
 
     SDL_memset(stream, 0, len);  //SDL 2.0
@@ -168,19 +111,6 @@ void audio_callback(void *userdata, uint8_t *stream, int len){
         //there're data left in audio buf, feed to stream
         len1 = is->audio_buf_size - is->audio_buf_index;
         len1 = min(len1, len);
-
-#ifdef SHOW_AUDIO_FRAME
-        //print decoded data
-        flag = 0;
-        offset = (uint8_t *)is->audio_buf + is->audio_buf_index;
-        for(i=0; i<len1; ++i){
-            one_byte = *(offset+i);
-            if(one_byte != 0x00){
-                fprintf(stderr, "%X", one_byte);
-            }
-        }
-        if(flag == 1) fprintf(stderr, "\n");
-#endif
 
         SDL_MixAudio(stream, (uint8_t *)is->audio_buf + is->audio_buf_index, len1, SDL_MIX_MAXVOLUME);
 
