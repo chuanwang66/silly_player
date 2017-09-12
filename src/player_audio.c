@@ -234,20 +234,11 @@ int main(int argc, char* argv[])
     //audio-decoding thread (audio pkt --> frame --> audio buffer)
     SDL_PauseAudio(0);
 
-    //////////////////////////////// the window ////////////////////////////////
-    uint32_t time_lasts_ms = 0;
-    uint32_t time_timeout_ms = 30000;
-    uint32_t time_step_ms = 1000;
-    for(;;) {
-        if(time_lasts_ms < time_timeout_ms) {
-            printf(".");
-
-            Sleep(time_step_ms);
-            time_lasts_ms += time_step_ms;
-        } else {
-            global_exit = 1;
-            break;
-        }
+    {
+        char ch;
+        printf("press 'q + enter' to exit\n");
+        while( (ch = getc(stdin)) != 'q');
+        global_exit = 1;
     }
 
     SDL_WaitThread(parse_tid, NULL);
