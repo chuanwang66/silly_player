@@ -151,7 +151,6 @@ static int open_audio_decoder()
 {
     int audio_stream_index = -1;
     int i;
-    is->audio_stream_index = -1;
 
     for(i=0; i<is->pFormatCtx->nb_streams; ++i)
     {
@@ -185,7 +184,6 @@ static int open_video_decoder()
 {
     int video_stream_index = -1;
     int i;
-    is->video_stream_index = -1;
 
     for(i=0; i<is->pFormatCtx->nb_streams; ++i)
     {
@@ -303,6 +301,8 @@ int main_player(int argc, char* argv[])
     strncpy(is->filename, argv[1], sizeof(is->filename));
     is->pictq_mutex = SDL_CreateMutex();
     is->pictq_cond = SDL_CreateCond();
+    is->audio_stream_index = -1;
+    is->video_stream_index = -1;
 
     //register all formats & codecs
     av_register_all();

@@ -158,7 +158,6 @@ static int open_audio_decoder()
 {
     int audio_stream_index = -1;
     int i;
-    is->audio_stream_index = -1;
 
     for(i=0; i<is->pFormatCtx->nb_streams; ++i)
     {
@@ -173,7 +172,6 @@ static int open_audio_decoder()
 
     if(audio_stream_index >= 0)
     {
-        printf("open_audio_decoder()===%d\n", audio_stream_index);
         if(stream_component_open(audio_stream_index) < 0)
         {
             fprintf(stderr, "%s: could not open audio codecs.\n", is->filename);
@@ -200,6 +198,8 @@ int main(int argc, char* argv[])
     }
 
     is = av_mallocz(sizeof(VideoState)); //memory allocation with alignment, why???
+    is->audio_stream_index = -1;
+    is->video_stream_index = -1;
     strncpy(is->filename, argv[1], sizeof(is->filename));
 
     //register all formats & codecs
@@ -235,7 +235,7 @@ int main(int argc, char* argv[])
 
     //////////////////////////////// the window ////////////////////////////////
     uint32_t time_lasts_ms = 0;
-    uint32_t time_timeout_ms = 15000;
+    uint32_t time_timeout_ms = 30000;
     uint32_t time_step_ms = 1000;
     for(;;) {
         if(time_lasts_ms < time_timeout_ms) {

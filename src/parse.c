@@ -32,13 +32,13 @@ int parse_thread(void *arg)
             }
         }
 
-        if(packet->stream_index == is->video_stream_index)
-        {
-            packet_queue_put(&is->videoq, packet);
-        }
-        else if(packet->stream_index == is->audio_stream_index)
+        if(packet->stream_index == is->audio_stream_index)
         {
             packet_queue_put(&is->audioq, packet);
+        }
+        else if(packet->stream_index == is->video_stream_index)
+        {
+            packet_queue_put(&is->videoq, packet);
         }
         else
         {
