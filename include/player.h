@@ -34,6 +34,8 @@ typedef struct VideoState{
     AVFormatContext *pFormatCtx;
     struct SwsContext *sws_ctx;
 
+    uint32_t seek_pos_sec; //seek position in seconds
+
     /** ************** audio related ************** */
     int audio_stream_index;
     AVStream *audio_st;
@@ -89,7 +91,6 @@ typedef struct VideoState{
     int pictq_size;
     SDL_mutex *pictq_mutex;
     SDL_cond *pictq_cond;
-
 
     char filename[1024];
 }VideoState;

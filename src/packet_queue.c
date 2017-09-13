@@ -8,6 +8,24 @@ void packet_queue_init(PacketQueue *q){
     q->cond = SDL_CreateCond();
 }
 
+void packet_queue_clear(PacketQueue *q) {
+    AVPacketList *pktList;
+
+    SDL_LockMutex(q->mutex);
+    while(pktList = q->first_pkt) {
+        q->first_pkt = pktList->next;
+        if(!q->first_pkt) {
+            q->last_pkt = NULL;
+        }
+        q->nb_packets--;
+        q->size -= pktList->pkt.size;
+        av_free(pktList);
+    }
+    printf("after clearing: nb=%d, size=%d\n", q->nb_packets, q->size);
+
+    SDL_UnlockMutex(q->mutex);
+}
+
 int packet_queue_put(PacketQueue *q, AVPacket *pkt){
     //wrap AVPacket in a AVPacketList, which is a element of the list
     AVPacketList *pktList;

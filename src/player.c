@@ -22,6 +22,7 @@ extern "C"
 #endif
 
 extern int global_exit;
+extern int global_exit_parse;
 static VideoState *is; //global video state
 
 static int open_input()
@@ -358,6 +359,7 @@ int main_player(int argc, char* argv[])
             break;
         case SDL_QUIT:
             fprintf(stderr, "event:quit\n");
+            global_exit_parse = 1;
             global_exit = 1;
             break;
         default:

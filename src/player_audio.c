@@ -29,6 +29,7 @@ extern "C"
 #endif
 
 extern int global_exit;
+extern int global_exit_parse;
 static VideoState *is; //global video state
 
 static int open_input()
@@ -202,6 +203,7 @@ int main(int argc, char* argv[])
     is->audio_stream_index = -1;
     is->video_stream_index = -1;
     strncpy(is->filename, argv[1], sizeof(is->filename));
+    is->seek_pos_sec = 0;
 
     //register all formats & codecs
     av_register_all();
@@ -231,14 +233,61 @@ int main(int argc, char* argv[])
         return -1;
     }
 
-    //audio-decoding thread (audio pkt --> frame --> audio buffer)
     SDL_PauseAudio(0);
 
     {
-        char ch;
-        printf("press 'q + enter' to exit\n");
-        while( (ch = getc(stdin)) != 'q');
-        global_exit = 1;
+        char line[128];
+        char cmd;
+        int sec;
+        int num;
+        double ts;
+        printf("\npress:\n");
+        printf("\t 'q\\n' to quit\n");
+        printf("\t 'p\\n' to pause\n");
+        printf("\t 'r\\n' to resume\n");
+        printf("\t 's sec\\n' to seek to position\n");
+        printf("\t 't\\n' to query current time\n");
+        do {
+            fgets(line, sizeof(line), stdin);
+            if((num = sscanf(line, "%s %d", &cmd, &sec)) <= 0)
+                continue;
+            switch(cmd) {
+            case 'q':
+                global_exit = 1;
+                global_exit_parse = 1;
+                break;
+            case 'p':
+                SDL_PauseAudio(1);
+                break;
+            case 'r':
+                SDL_PauseAudio(0);
+                break;
+            case 's':
+                if(num == 2) {
+                    printf("seek to %d (sec)\n", sec);
+                    global_exit_parse = 1;
+                    SDL_WaitThread(parse_tid, NULL);
+                    global_exit_parse = 0;
+
+                    is->seek_pos_sec = sec;
+                    parse_tid = SDL_CreateThread(parse_thread, "PARSING_THREAD", is);
+                    if(!parse_tid) {
+                        fprintf(stderr, "create parsing thread failed.\n");
+                        av_free(is);
+                        return -1;
+                    }
+
+                    SDL_PauseAudio(0);
+                }
+                break;
+            case 't':
+                ts = get_audio_clock(is);
+                printf("current time: %f\n", ts);
+                break;
+            default:
+                continue;
+            }
+        }while(!global_exit);
     }
 
     SDL_WaitThread(parse_tid, NULL);

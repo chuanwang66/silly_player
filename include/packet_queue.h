@@ -21,6 +21,9 @@ typedef struct PacketQueue{
 /** initialize a queue */
 void packet_queue_init(PacketQueue *q);
 
+/** clear a queue */
+void packet_queue_clear(PacketQueue *q);
+
 /** append "one" AVPacket to the end of the queue */
 int packet_queue_put(PacketQueue *q, AVPacket *pkt);
 
