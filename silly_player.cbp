@@ -20,14 +20,14 @@
 				</Compiler>
 				<Linker>
 					<Add option="-lmingw32 -lSDL2main -lSDL2" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libavcodec.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libavdevice.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libavfilter.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libavformat.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libavutil.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libpostproc.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libswresample.dll.a" />
-					<Add library="ffmpeg-2.8.2-win32-dev\lib\libswscale.dll.a" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\avcodec.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\avdevice.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\avfilter.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\avformat.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\avutil.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\postproc.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\swresample.lib" />
+					<Add library="ffmpeg-2.8.2-win32-dev\lib\swscale.lib" />
 					<Add directory="ffmpeg-2.8.2-win32-shared/bin" />
 					<Add directory="SDL2-2.0.3/i686-w64-mingw32/bin" />
 					<Add directory="SDL2-2.0.3/i686-w64-mingw32/lib" />
